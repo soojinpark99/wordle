@@ -19,6 +19,7 @@ header {
 
 .wordle {
   font-size: 40px;
+  font-family: "Playfair Display", serif;
   width: 370px;
 
   display: flex;

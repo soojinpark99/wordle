@@ -35,3 +35,7 @@ footer {
 .enter {
   font-size: 15px;
 }
+
+.delete img {
+  width: 30px;
+}
