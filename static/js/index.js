@@ -4,8 +4,6 @@ let timer;
 
 function appStart() {
   function handleKeyDown(event) {
-    // 이벤트는 암묵적으로 변수에 들어감
-
     function nextLine() {
       if (attempts === 6) return gameover();
 
@@ -16,6 +14,9 @@ function appStart() {
     function gameover() {
       window.removeEventListener("keydown", handleKeyDown);
       clearInterval(timer);
+
+      const gameoverBox = document.querySelector(".gameover-box");
+      gameoverBox.style.display = "flex";
     }
 
     function handleBackspace() {
@@ -33,10 +34,7 @@ function appStart() {
 
       // --- 서버에서 정답을 받아오는 코드 ---
       const 응답 = await fetch("/answer");
-      // await: 서버에서 오는 응답을 기다림
-      // fetch: 자바스크립트에서 서버로 요청을 보내는 함수
       const 정답_객체 = await 응답.json();
-      // json: 자바스크립트에 맞는 포맷으로 바꿔줌
       const 정답 = 정답_객체.answer;
 
       for (let i = 0; i < 5; i++) {
@@ -60,9 +58,12 @@ function appStart() {
           keyBlock.style.background = "#c9b458";
         } else {
           block.style.background = "#787c7e";
+          keyBlock.style.background = "#787c7e";
         }
 
         block.style.color = "white";
+        block.style.borderColor = "transparent";
+        keyBlock.style.color = "white";
       }
 
       if (맞은_개수 === 5) gameover();
@@ -81,8 +82,8 @@ function appStart() {
       if (event.key === "Enter") handleEnterKey();
       else return;
     } else if (65 <= keyCode && keyCode <= 90) {
+      thisBlock.style.borderColor = "#909395";
       thisBlock.innerText = key;
-      // 조건을 만족하는 이벤트 발생 시 블록에 알파벳 입력
       index += 1;
     }
   }
@@ -101,20 +102,11 @@ function appStart() {
     timer = setInterval(setTime, 1000);
   }
 
-  // function handleKeyClick() {
-  //   const thisBlock = document.querySelector(
-  //     `.board-block[data-index='${attempts}${index}']`
-  //   );
-  //   const keyname = document.querySelector(
-  //     ".keyboard-block[].getAttribute('data-key')"
-  //   )
-  // }
-
   startTimer();
   window.addEventListener("keydown", handleKeyDown);
-  // 키보드 키가 눌렸을 때 함수 실행
 
-  const allKey = document.querySelector(".keyboard-bolck");
+  // const keyBlock = document.querySelectorAll(".keyboard-block");
+  // keyBlock.addEventListener("click", handleKeyClick);
 }
 
 appStart();
