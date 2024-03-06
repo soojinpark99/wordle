@@ -15,8 +15,10 @@ function appStart() {
       window.removeEventListener("keydown", handleKeyDown);
       clearInterval(timer);
 
-      const gameoverBox = document.querySelector(".gameover-box");
-      gameoverBox.style.display = "flex";
+      setTimeout(() => {
+        const gameoverBox = document.querySelector(".gameover-box");
+        gameoverBox.style.display = "flex";
+      }, 300);
     }
 
     function handleBackspace() {
@@ -102,11 +104,21 @@ function appStart() {
     timer = setInterval(setTime, 1000);
   }
 
+  function handleKeyClick(event) {
+    const thisBlock = document.querySelector(
+      `.board-block[data-index='${attempts}${index}']`
+    );
+    thisBlock.textContent = event.currentTarget.dataset.key;
+    index += 1;
+  }
+
   startTimer();
   window.addEventListener("keydown", handleKeyDown);
 
-  // const keyBlock = document.querySelectorAll(".keyboard-block");
-  // keyBlock.addEventListener("click", handleKeyClick);
+  const keyBoardBlocks = document.querySelectorAll(".keyboard-block");
+  keyBoardBlocks.forEach((keyBoardBlock) =>
+    keyBoardBlock.addEventListener("click", handleKeyClick)
+  );
 }
 
 appStart();
